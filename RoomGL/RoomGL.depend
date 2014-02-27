@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1392625740 source:c:\users\lotk\dropbox\roomgl\roomgl\demo.c
+	<windows.h>
+	<stdlib.h>
+	<stdio.h>
+	<GL/glut.h>
+
+1382940988 c:\users\lotk\dropbox\roomgl\roomgl\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1391413426 c:\users\lotk\dropbox\roomgl\roomgl\include\gl\gl.h
+
+1382940988 c:\users\lotk\dropbox\roomgl\roomgl\include\gl\glu.h
+	<GL/gl.h>
+
+1392625390 source:c:\users\lotk\dropbox\roomgl\roomgl\solver.c
+
