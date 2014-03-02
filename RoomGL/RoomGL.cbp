@@ -8,11 +8,13 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/RoomGL" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../RoomGL" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="common" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
@@ -41,17 +43,51 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="MosegaardsClothTutorial.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="common/controls.cpp" />
+		<Unit filename="common/controls.hpp" />
+		<Unit filename="common/objloader.cpp" />
+		<Unit filename="common/objloader.hpp" />
+		<Unit filename="common/quaternion_utils.cpp" />
+		<Unit filename="common/quaternion_utils.hpp" />
+		<Unit filename="common/shader.cpp" />
+		<Unit filename="common/shader.hpp" />
+		<Unit filename="common/tangentspace.cpp" />
+		<Unit filename="common/tangentspace.hpp" />
+		<Unit filename="common/text2D.cpp" />
+		<Unit filename="common/text2D.hpp" />
+		<Unit filename="common/texture.cpp" />
+		<Unit filename="common/texture.hpp" />
+		<Unit filename="common/vboindexer.cpp" />
+		<Unit filename="common/vboindexer.hpp" />
 		<Unit filename="demo.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="header.h" />
+		<Unit filename="model.cpp" />
+		<Unit filename="room.cpp" />
 		<Unit filename="solver.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="test.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
 			<debugger />
 			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
