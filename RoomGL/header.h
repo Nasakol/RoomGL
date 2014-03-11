@@ -1,10 +1,11 @@
 
 #ifdef __APPLE__
+    #include "GL/glew.h"
+    #include "GL/glfw.h"
     #include <OpenGL/gl.h>
     #include <OpenGL/glu.h>
     #include <GLUT/glut.h>
-    #include "glew.h"
-    #include "glfw.h"
+
 #else
 #ifdef _WIN32
     #include <windows.h>

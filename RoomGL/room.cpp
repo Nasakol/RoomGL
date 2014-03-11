@@ -26,9 +26,9 @@ int main(int argc, char **argv)
 
 	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+    
 	// Open a window and create its OpenGL context
 	if( !glfwOpenWindow( 1024, 768, 0,0,0,0, 32,0, GLFW_WINDOW ) )
 	{
@@ -38,13 +38,13 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize GLEW
-#ifdef _WIN32
+
 	glewExperimental = true; // Needed for core profile
 	if (glewInit() != GLEW_OK) {
 		fprintf(stderr, "Failed to initialize GLEW\n");
 		return -1;
 	}
-#endif
+
 	printf("GLEW version: %s\n", glewGetString(GLEW_VERSION));
 
 	glfwSetWindowTitle( "Room from tutorial 16" );
@@ -212,7 +212,9 @@ int main(int argc, char **argv)
 
 
 	// Create and compile our GLSL program from the shaders
+    printf("end1\n");
 	GLuint programID = LoadShaders( "ShadowMapping.vertexshader", "ShadowMapping.fragmentshader" );
+    printf("end2\n");
 
 	// Get a handle for our "myTextureSampler" uniform
 	GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
@@ -340,7 +342,7 @@ int main(int argc, char **argv)
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthTexture);
 		glUniform1i(ShadowMapID, 1);
-/*
+
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
@@ -393,7 +395,7 @@ int main(int argc, char **argv)
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
-*/
+
 /** test **/
 // Bind our texture in Texture Unit 0
 
@@ -455,6 +457,7 @@ int main(int argc, char **argv)
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 }
+ 
 /** end test **/
 
 
@@ -518,95 +521,4 @@ int main(int argc, char **argv)
 	glfwTerminate();
 
 	return 0;
-}
-
-int x, y, z;
-/* display method called each frame*/
-void display(void)
-{
-//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-//    glLineWidth(1.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-
-	glDisable(GL_LIGHTING); // drawing some smooth shaded background - because I like it ;)
-	glBegin(GL_POLYGON);
-        glColor3f(0.8f,0.8f,1.0f);
-        glVertex3f(-200.0f,-100.0f,-100.0f);
-        glVertex3f(200.0f,-100.0f,-100.0f);
-        glColor3f(0.4f,0.4f,0.8f);
-        glVertex3f(200.0f,100.0f,-100.0f);
-        glVertex3f(-200.0f,100.0f,-100.0f);
-	glEnd();
-	glEnable(GL_LIGHTING);
-
-	glTranslatef(-6.5,6,-9.0f); // move camera out and center on the cloth
-//	glTranslatef(x,y,z);
-	glRotatef(25,0,1,0); // rotate a bit to see the cloth from the side
-//	cloth1.drawShaded(); // finally draw the cloth with smooth shading
-
-	glPushMatrix(); // to draw the ball we use glutSolidSphere, and need to draw the sphere at the position of the ball
-	glTranslatef(3,3,3); // hence the translation of the sphere onto the ball position
-	glColor3f(0.4f,0.8f,0.5f);
-	glutSolidSphere(3-0.1,50,50); // draw the ball, but with a slightly lower radius, otherwise we could get ugly visual artifacts of cloth penetrating the ball slightly
-	glPopMatrix();
-
-	glutSwapBuffers();
-	glutPostRedisplay();
-}
-
-void reshape(int w, int h)
-{
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	if (h==0)
-		gluPerspective(80,(float)w,1.0,5000.0);
-	else
-		gluPerspective (80,( float )w /( float )h,1.0,5000.0 );
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-}
-
-void keyboard( unsigned char key, int x, int y )
-{
-	switch ( key ) {
-	case 27:
-		exit ( 0 );
-		break;
-    case 'a':
-        x = 1;
-        break;
-    case 's':
-        x = -1;
-        break;
-    case 'd':
-        y = 1;
-        break;
-    case 'f':
-        y = -1;
-        break;
-    case 'g':
-        z = 1;
-        break;
-    case 'h':
-        z = -1;
-        break;
-	default:
-		break;
-	}
-}
-
-void arrow_keys( int a_keys, int x, int y )
-{
-	switch(a_keys) {
-	case GLUT_KEY_UP:
-		glutFullScreen();
-		break;
-	case GLUT_KEY_DOWN:
-		glutReshapeWindow (1280, 720 );
-		break;
-	default:
-		break;
-	}
 }
