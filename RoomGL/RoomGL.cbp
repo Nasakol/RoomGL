@@ -15,6 +15,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
+					<Add directory="../RoomGL" />
 				</Compiler>
 				<Linker>
 					<Add library="lib\glew32s.lib" />
@@ -58,6 +59,7 @@
 		<Unit filename="header.h" />
 		<Unit filename="include/common/controls.cpp" />
 		<Unit filename="include/common/controls.hpp" />
+		<Unit filename="include/common/loadObject.cpp" />
 		<Unit filename="include/common/objloader.cpp" />
 		<Unit filename="include/common/objloader.hpp" />
 		<Unit filename="include/common/quaternion_utils.cpp" />
