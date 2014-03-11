@@ -14,6 +14,8 @@ vector<GLuint> v_vertexbuffer;
 vector<GLuint> v_uvbuffer;
 vector<GLuint> v_normalbuffer;
 vector<GLuint> v_elementbuffer;
+vector<GLuint> v_texture;
+vector<int> v_indice_size;
 
 int main(int argc, char **argv)
 {
@@ -28,7 +30,7 @@ int main(int argc, char **argv)
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    
+
 	// Open a window and create its OpenGL context
 	if( !glfwOpenWindow( 1024, 768, 0,0,0,0, 32,0, GLFW_WINDOW ) )
 	{
@@ -47,7 +49,7 @@ int main(int argc, char **argv)
 
 	printf("GLEW version: %s\n", glewGetString(GLEW_VERSION));
 
-	glfwSetWindowTitle( "Room from tutorial 16" );
+	glfwSetWindowTitle( "Room" );
 
 	// Ensure we can capture the escape key being pressed below
 	glfwEnable( GLFW_STICKY_KEYS );
@@ -75,85 +77,29 @@ int main(int argc, char **argv)
 	// Get a handle for our "MVP" uniform
 	GLuint depthMatrixID = glGetUniformLocation(depthProgramID, "depthMVP");
 
+
 	// Load the texture
 	GLuint Texture = loadDDS("uvmap.DDS");
-	GLuint untitledDDS = loadDDS("untitled.DDS");
+	GLuint untitledDDS = loadDDS("Light.dds");
+	v_texture.push_back(loadDDS("uvmap.DDS"));
+	v_texture.push_back(loadDDS("untitled.DDS"));
+	v_texture.push_back(loadDDS("untitled.DDS"));
+	v_texture.push_back(loadBMP_custom("Light.bmp"));
 
-	// Read our .obj file
-	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec2> uvs;
-	std::vector<glm::vec3> normals;
-	bool res = loadOBJ("room_thickwalls.obj", vertices, uvs, normals);
+    // Read .obj file
+    int temp = 0;
+    temp = loadObject("room_thickwalls.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
+    v_indice_size.push_back(temp);
 
-	std::vector<unsigned short> indices;
-	std::vector<glm::vec3> indexed_vertices;
-	std::vector<glm::vec2> indexed_uvs;
-	std::vector<glm::vec3> indexed_normals;
-	indexVBO(vertices, uvs, normals, indices, indexed_vertices, indexed_uvs, indexed_normals);
+    temp = loadObject("untitled2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(10,0,0));
+    v_indice_size.push_back(temp);
 
-	// Load it into a VBO
+    temp = loadObject("untitled.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
+    v_indice_size.push_back(temp);
 
-	GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, indexed_vertices.size() * sizeof(glm::vec3), &indexed_vertices[0], GL_STATIC_DRAW);
+    temp = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(3,1.5,-1.5));
+    v_indice_size.push_back(temp);
 
-	GLuint uvbuffer;
-	glGenBuffers(1, &uvbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-	glBufferData(GL_ARRAY_BUFFER, indexed_uvs.size() * sizeof(glm::vec2), &indexed_uvs[0], GL_STATIC_DRAW);
-
-	GLuint normalbuffer;
-	glGenBuffers(1, &normalbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
-	glBufferData(GL_ARRAY_BUFFER, indexed_normals.size() * sizeof(glm::vec3), &indexed_normals[0], GL_STATIC_DRAW);
-
-	// Generate a buffer for the indices as well
-	GLuint elementbuffer;
-	glGenBuffers(1, &elementbuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), &indices[0], GL_STATIC_DRAW);
-
-/** test **/
-/*
-    std::vector<glm::vec3> vertices_untitled;
-	std::vector<glm::vec2> uvs_untitled;
-	std::vector<glm::vec3> normals_untitled;
-	res = loadOBJ("untitled.obj", vertices_untitled, uvs_untitled, normals_untitled);
-
-	std::vector<unsigned short> indices_untitled;
-	std::vector<glm::vec3> indexed_vertices_untitled;
-	std::vector<glm::vec2> indexed_uvs_untitled;
-	std::vector<glm::vec3> indexed_normals_untitled;
-	indexVBO(vertices_untitled, uvs_untitled, normals_untitled, indices_untitled, indexed_vertices_untitled, indexed_uvs_untitled, indexed_normals_untitled);
-
-    GLuint vertexbuffer_untitled;
-	glGenBuffers(1, &vertexbuffer_untitled);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer_untitled);
-	glBufferData(GL_ARRAY_BUFFER, indexed_vertices_untitled.size() * sizeof(glm::vec3), &indexed_vertices_untitled[0], GL_STATIC_DRAW);
-
-	GLuint uvbuffer_untitled;
-	glGenBuffers(1, &uvbuffer_untitled);
-	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer_untitled);
-	glBufferData(GL_ARRAY_BUFFER, indexed_uvs_untitled.size() * sizeof(glm::vec2), &indexed_uvs_untitled[0], GL_STATIC_DRAW);
-
-	GLuint normalbuffer_untitled;
-	glGenBuffers(1, &normalbuffer_untitled);
-	glBindBuffer(GL_ARRAY_BUFFER, normalbuffer_untitled);
-	glBufferData(GL_ARRAY_BUFFER, indexed_normals_untitled.size() * sizeof(glm::vec3), &indexed_normals_untitled[0], GL_STATIC_DRAW);
-
-	// Generate a buffer for the indices as well
-	GLuint elementbuffer_untitled;
-	glGenBuffers(1, &elementbuffer_untitled);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer_untitled);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_untitled.size() * sizeof(unsigned short), &indices_untitled[0], GL_STATIC_DRAW);
-*/
-    int abc[2] = {0};
-//    abc[0] = loadObject("untitled2.obj");
-//    abc[1] = loadObject("untitled.obj");
-    abc[0] = loadObject2("untitled2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(10,0,0));
-    abc[1] = loadObject2("untitled.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
-/** end test **/
 
 
 	// ---------------------------------------------
@@ -212,9 +158,7 @@ int main(int argc, char **argv)
 
 
 	// Create and compile our GLSL program from the shaders
-    printf("end1\n");
 	GLuint programID = LoadShaders( "ShadowMapping.vertexshader", "ShadowMapping.fragmentshader" );
-    printf("end2\n");
 
 	// Get a handle for our "myTextureSampler" uniform
 	GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
@@ -230,8 +174,28 @@ int main(int argc, char **argv)
 	GLuint lightInvDirID = glGetUniformLocation(programID, "LightInvDirection_worldspace");
 
 
+    int cnt = 0;
+    float x = -1, delta = 0.01;
 
+	double lastTime = glfwGetTime();
+	int nbFrames = 0;
 	do{
+		// Measure speed
+		double currentTime = glfwGetTime();
+		nbFrames++;
+		if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1sec ago
+			// printf and reset
+			printf("%f ms/frame\n", 1000.0/double(nbFrames));
+			nbFrames = 0;
+			lastTime += 1.0;
+		}
+
+        // change position of light source
+        if(cnt == 1) {
+            cnt = 0;
+            x += delta;
+            if(x < -1 || x >= 2) delta *= -1;
+        }cnt++;
 
 		// Render to our framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
@@ -249,26 +213,29 @@ int main(int argc, char **argv)
 		// Use our shader
 		glUseProgram(depthProgramID);
 
-		glm::vec3 lightInvDir = glm::vec3(0.5f,2,2);
+        // light source
+		glm::vec3 lightInvDir = glm::vec3(x,2,2);
 
 		// Compute the MVP matrix from the light's point of view
 		glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20);
 		glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, glm::vec3(0,0,0), glm::vec3(0,1,0));
 		// or, for spot light :
-		//glm::vec3 lightPos(5, 20, 20);
-		//glm::mat4 depthProjectionMatrix = glm::perspective<float>(45.0f, 1.0f, 2.0f, 50.0f);
-		//glm::mat4 depthViewMatrix = glm::lookAt(lightPos, lightPos-lightInvDir, glm::vec3(0,1,0));
+		// glm::vec3 lightPos(5, 20, 20);
+		// glm::mat4 depthProjectionMatrix = glm::perspective<float>(45.0f, 1.0f, 2.0f, 50.0f);
+		// glm::mat4 depthViewMatrix = glm::lookAt(lightPos, lightPos-lightInvDir, glm::vec3(0,1,0));
 
 		glm::mat4 depthModelMatrix = glm::mat4(1.0);
 		glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
 
 		// Send our transformation to the currently bound shader,
-		// in the "MVP" uniform
+		// in the "MVP" uniform in glsl DepthRTT
 		glUniformMatrix4fv(depthMatrixID, 1, GL_FALSE, &depthMVP[0][0]);
 
+    // map shader into floor
+    for(int i=0 ; i<4 ; i++) {
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, v_vertexbuffer[i]);
 		glVertexAttribPointer(
 			0,  // The attribute we want to configure
 			3,                  // size
@@ -280,18 +247,18 @@ int main(int argc, char **argv)
 
 
 		// Index buffer
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, v_elementbuffer[i]);
 
 		// Draw the triangles !
 		glDrawElements(
 			GL_TRIANGLES,      // mode
-			indices.size(),    // count
+			v_indice_size[i],    // count
 			GL_UNSIGNED_SHORT, // type
 			(void*)0           // element array buffer offset
 		);
 
 		glDisableVertexAttribArray(0);
-
+    }
 
 
 		// Render to the screen
@@ -331,6 +298,7 @@ int main(int argc, char **argv)
 		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &ViewMatrix[0][0]);
 		glUniformMatrix4fv(DepthBiasID, 1, GL_FALSE, &depthBiasMVP[0][0]);
 
+        // specify position of light source
 		glUniform3f(lightInvDirID, lightInvDir.x, lightInvDir.y, lightInvDir.z);
 
 		// Bind our texture in Texture Unit 0
@@ -344,122 +312,62 @@ int main(int argc, char **argv)
 		glUniform1i(ShadowMapID, 1);
 
 
-		// 1rst attribute buffer : vertices
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glVertexAttribPointer(
-			0,                  // attribute
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
+        // 1rst attribute buffer : vertices
+        for(int i=0 ; i<v_indice_size.size() ; i++) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, v_texture[i]);
 
-		// 2nd attribute buffer : UVs
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-//        glTranslatef( 6.0, 5.0, 3 );
-		glVertexAttribPointer(
-			1,                                // attribute
-			2,                                // size
-			GL_FLOAT,                         // type
-			GL_FALSE,                         // normalized?
-			0,                                // stride
-			(void*)0                          // array buffer offset
-		);
+            glEnableVertexAttribArray(0);
+            glBindBuffer(GL_ARRAY_BUFFER, v_vertexbuffer[i]);
+            glVertexAttribPointer(
+                0,                  // attribute
+                3,                  // size
+                GL_FLOAT,           // type
+                GL_FALSE,           // normalized?
+                0,                  // stride
+                (void*)0            // array buffer offset
+            );
 
-		// 3rd attribute buffer : normals
-		glEnableVertexAttribArray(2);
-		glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
-		glVertexAttribPointer(
-			2,                                // attribute
-			3,                                // size
-			GL_FLOAT,                         // type
-			GL_FALSE,                         // normalized?
-			0,                                // stride
-			(void*)0                          // array buffer offset
-		);
+            // 2nd attribute buffer : UVs
+            glEnableVertexAttribArray(1);
+            glBindBuffer(GL_ARRAY_BUFFER, v_uvbuffer[i]);
+            glVertexAttribPointer(
+                1,                                // attribute
+                2,                                // size
+                GL_FLOAT,                         // type
+                GL_FALSE,                         // normalized?
+                0,                                // stride
+                (void*)0                          // array buffer offset
+            );
 
-		// Index buffer
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+            // 3rd attribute buffer : normals
+            glEnableVertexAttribArray(2);
+            glBindBuffer(GL_ARRAY_BUFFER, v_normalbuffer[i]);
+            glVertexAttribPointer(
+                2,                                // attribute
+                3,                                // size
+                GL_FLOAT,                         // type
+                GL_FALSE,                         // normalized?
+                0,                                // stride
+                (void*)0                          // array buffer offset
+            );
 
-		// Draw the triangles !
-		glDrawElements(
-			GL_TRIANGLES,      // mode
-			indices.size(),    // count
-			GL_UNSIGNED_SHORT, // type
-			(void*)0           // element array buffer offset
-		);
+            // Index buffer
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, v_elementbuffer[i]);
 
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(2);
+            // Draw the triangles !
+            glDrawElements(
+                GL_TRIANGLES,      // mode
+                v_indice_size[i],
+                //indices.size(),    // count
+                GL_UNSIGNED_SHORT, // type
+                (void*)0           // element array buffer offset
+            );
 
-/** test **/
-// Bind our texture in Texture Unit 0
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, untitledDDS);
-		// Set our "myTextureSampler" sampler to user Texture Unit 0
-
-
-// 1rst attribute buffer : vertices
-    for(int i=0 ; i<2 ; i++) {
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, v_vertexbuffer[i]);
-		glVertexAttribPointer(
-			0,                  // attribute
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-
-		// 2nd attribute buffer : UVs
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, v_uvbuffer[i]);
-		glVertexAttribPointer(
-			1,                                // attribute
-			2,                                // size
-			GL_FLOAT,                         // type
-			GL_FALSE,                         // normalized?
-			0,                                // stride
-			(void*)0                          // array buffer offset
-		);
-
-		// 3rd attribute buffer : normals
-		glEnableVertexAttribArray(2);
-		glBindBuffer(GL_ARRAY_BUFFER, v_normalbuffer[i]);
-		glVertexAttribPointer(
-			2,                                // attribute
-			3,                                // size
-			GL_FLOAT,                         // type
-			GL_FALSE,                         // normalized?
-			0,                                // stride
-			(void*)0                          // array buffer offset
-		);
-
-		// Index buffer
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, v_elementbuffer[i]);
-
-		// Draw the triangles !
-		glDrawElements(
-			GL_TRIANGLES,      // mode
-			abc[i],
-			//indices.size(),    // count
-			GL_UNSIGNED_SHORT, // type
-			(void*)0           // element array buffer offset
-		);
-
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(2);
-}
- 
-/** end test **/
-
+            glDisableVertexAttribArray(0);
+            glDisableVertexAttribArray(1);
+            glDisableVertexAttribArray(2);
+        }
 
 
 		// Optionally render the shadowmap (for debug only)
@@ -502,10 +410,10 @@ int main(int argc, char **argv)
 		   glfwGetWindowParam( GLFW_OPENED ) );
 
 	// Cleanup VBO and shader
-	glDeleteBuffers(1, &vertexbuffer);
-	glDeleteBuffers(1, &uvbuffer);
-	glDeleteBuffers(1, &normalbuffer);
-	glDeleteBuffers(1, &elementbuffer);
+//	glDeleteBuffers(1, &vertexbuffer);
+//	glDeleteBuffers(1, &uvbuffer);
+//	glDeleteBuffers(1, &normalbuffer);
+//	glDeleteBuffers(1, &elementbuffer);
 	glDeleteProgram(programID);
 	glDeleteProgram(depthProgramID);
 	glDeleteProgram(quad_programID);

@@ -56,24 +56,24 @@
 		<Linker>
 			<Add directory="lib" />
 		</Linker>
+		<Unit filename="common/controls.cpp" />
+		<Unit filename="common/controls.hpp" />
+		<Unit filename="common/loadObject.cpp" />
+		<Unit filename="common/objloader.cpp" />
+		<Unit filename="common/objloader.hpp" />
+		<Unit filename="common/quaternion_utils.cpp" />
+		<Unit filename="common/quaternion_utils.hpp" />
+		<Unit filename="common/shader.cpp" />
+		<Unit filename="common/shader.hpp" />
+		<Unit filename="common/tangentspace.cpp" />
+		<Unit filename="common/tangentspace.hpp" />
+		<Unit filename="common/text2D.cpp" />
+		<Unit filename="common/text2D.hpp" />
+		<Unit filename="common/texture.cpp" />
+		<Unit filename="common/texture.hpp" />
+		<Unit filename="common/vboindexer.cpp" />
+		<Unit filename="common/vboindexer.hpp" />
 		<Unit filename="header.h" />
-		<Unit filename="include/common/controls.cpp" />
-		<Unit filename="include/common/controls.hpp" />
-		<Unit filename="include/common/loadObject.cpp" />
-		<Unit filename="include/common/objloader.cpp" />
-		<Unit filename="include/common/objloader.hpp" />
-		<Unit filename="include/common/quaternion_utils.cpp" />
-		<Unit filename="include/common/quaternion_utils.hpp" />
-		<Unit filename="include/common/shader.cpp" />
-		<Unit filename="include/common/shader.hpp" />
-		<Unit filename="include/common/tangentspace.cpp" />
-		<Unit filename="include/common/tangentspace.hpp" />
-		<Unit filename="include/common/text2D.cpp" />
-		<Unit filename="include/common/text2D.hpp" />
-		<Unit filename="include/common/texture.cpp" />
-		<Unit filename="include/common/texture.hpp" />
-		<Unit filename="include/common/vboindexer.cpp" />
-		<Unit filename="include/common/vboindexer.hpp" />
 		<Unit filename="room.cpp" />
 		<Extensions>
 			<code_completion />
