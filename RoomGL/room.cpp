@@ -17,6 +17,9 @@ vector<GLuint> v_elementbuffer;
 vector<GLuint> v_texture;
 vector<int> v_indice_size;
 
+GLuint Texture;
+void sphere_map();
+
 int main(int argc, char **argv)
 {
 // Initialise GLFW
@@ -79,27 +82,57 @@ int main(int argc, char **argv)
 
 
 	// Load the texture
-	GLuint Texture = loadDDS("uvmap.DDS");
-	GLuint untitledDDS = loadDDS("Light.dds");
-	v_texture.push_back(loadDDS("uvmap.DDS"));
-	v_texture.push_back(loadDDS("untitled.DDS"));
-	v_texture.push_back(loadDDS("untitled.DDS"));
-	v_texture.push_back(loadBMP_custom("Light.bmp"));
 
-    // Read .obj file
-    int temp = 0;
-    temp = loadObject("room_thickwalls.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
-    v_indice_size.push_back(temp);
+//	 Texture = loadDDS("uvmap.DDS");
 
-    temp = loadObject("untitled2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(10,0,0));
-    v_indice_size.push_back(temp);
 
-    temp = loadObject("untitled.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
-    v_indice_size.push_back(temp);
+    // -----------------------------------------------------
+    // Start adding object
+    // Read .obj file and load Texture by TGA file
+    // -----------------------------------------------------
 
-    temp = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(3,1.5,-1.5));
-    v_indice_size.push_back(temp);
+//	int width, height;
+//	v_texture.push_back(png_texture_load("untitled.png", &width, &height));
+    int temp_indice_size = 0;
 
+	v_texture.push_back(loadTGA_glfw("textures/uvmap.tga"));
+    temp_indice_size = loadObject("room_thickwalls.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
+    v_indice_size.push_back(temp_indice_size);
+
+	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
+    temp_indice_size = loadObject("untitled2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(7,0,0));
+    v_indice_size.push_back(temp_indice_size);
+
+	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
+    temp_indice_size = loadObject("untitled.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(-2,0,0));
+    v_indice_size.push_back(temp_indice_size);
+
+	v_texture.push_back(loadTGA_glfw("textures/Light.tga"));
+    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(1,1.5,-2));
+    v_indice_size.push_back(temp_indice_size);
+
+	v_texture.push_back(loadTGA_glfw("textures/lamp.tga"));
+    temp_indice_size = loadObject("lamp.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(4, 2, 0));
+    v_indice_size.push_back(temp_indice_size);
+
+	v_texture.push_back(loadTGA_glfw("textures/wall.tga"));
+    temp_indice_size = loadObject("wall.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(-2,0,0));
+    v_indice_size.push_back(temp_indice_size);
+
+	v_texture.push_back(loadTGA_glfw("textures/monkey.tga"));
+    temp_indice_size = loadObject("monkey.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+
+
+
+    // -----------------------------------------------------
+    // End adding object
+    // -----------------------------------------------------
+
+
+
+
+//    glutDisplayFunc(sphere_map);
 
 
 	// ---------------------------------------------
@@ -229,7 +262,7 @@ int main(int argc, char **argv)
 
 		// Send our transformation to the currently bound shader,
 		// in the "MVP" uniform in glsl DepthRTT
-		glUniformMatrix4fv(depthMatrixID, 1, GL_FALSE, &depthMVP[0][0]);
+//		glUniformMatrix4fv(depthMatrixID, 1, GL_FALSE, &depthMVP[0][0]);
 
     // map shader into floor
     for(int i=0 ; i<4 ; i++) {
@@ -301,11 +334,13 @@ int main(int argc, char **argv)
         // specify position of light source
 		glUniform3f(lightInvDirID, lightInvDir.x, lightInvDir.y, lightInvDir.z);
 
-		// Bind our texture in Texture Unit 0
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Texture);
-		// Set our "myTextureSampler" sampler to user Texture Unit 0
-		glUniform1i(TextureID, 0);
+
+//		// Bind our texture in Texture Unit 0
+//		glActiveTexture(GL_TEXTURE0);
+//		glBindTexture(GL_TEXTURE_2D, Texture);
+//		// Set our "myTextureSampler" sampler to user Texture Unit 0
+//		glUniform1i(TextureID, 0);
+
 
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthTexture);
@@ -316,6 +351,7 @@ int main(int argc, char **argv)
         for(int i=0 ; i<v_indice_size.size() ; i++) {
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, v_texture[i]);
+            glUniform1i(TextureID, 0);
 
             glEnableVertexAttribArray(0);
             glBindBuffer(GL_ARRAY_BUFFER, v_vertexbuffer[i]);
@@ -417,7 +453,7 @@ int main(int argc, char **argv)
 	glDeleteProgram(programID);
 	glDeleteProgram(depthProgramID);
 	glDeleteProgram(quad_programID);
-	glDeleteTextures(1, &Texture);
+//	glDeleteTextures(1, &Texture);
 
 	glDeleteFramebuffers(1, &FramebufferName);
 	glDeleteTextures(1, &depthTexture);
@@ -429,4 +465,45 @@ int main(int argc, char **argv)
 	glfwTerminate();
 
 	return 0;
+}
+
+void sphere_map() {
+    //Texture use for automatic coordinate generation
+    glBindTexture(GL_TEXTURE_2D, Texture);
+    glEnable(GL_TEXTURE_2D);
+
+    //Sphere mapping and enable s & t texture generation
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+
+    //Draw the shapes to apply the texture
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   //blend texture with lighting
+   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+   glLoadIdentity();
+   gluLookAt ( 0, 0, 0, 5, 0, 0, 0, 0, 1 );	//put camera at center of origin
+   glScalef ( 1, -1, 1 );			//flip left-right
+//   rotate();
+//   drawScene();
+
+   //Use current framebuffer image as texture
+   glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 0, 0, 500, 500, 0);
+
+   //clear frame buffer to draw sphere with scene
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   glLoadIdentity();
+   //put camera back at the observational point
+   gluLookAt ( 5, 0, 0, 0, 0, 0, 0, 0, 1 );
+//   rotate();
+//   drawScene();
+   glutSolidSphere( 1.0, 20, 20 );	// draw a sphere with this sphere map
+   glFlush();
+
+
+    glDisable(GL_TEXTURE_GEN_S);
+    glDisable(GL_TEXTURE_GEN_T);
+    glDisable(GL_TEXTURE_2D);
 }
