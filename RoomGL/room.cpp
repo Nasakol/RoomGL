@@ -115,6 +115,10 @@ int main(int argc, char **argv)
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofaTable.tga"));
     temp_indice_size = loadObject("UVobj/LV_sofaTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_dinningTable.tga"));
+    temp_indice_size = loadObject("UVobj/LV_dinningTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
 
 
     // -----------------------------------------------------
