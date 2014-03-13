@@ -6,7 +6,7 @@
 #include <common/vboindexer.hpp>
 
 inline int loadObject(char *str, vector<GLuint> &v_vertexbuffer, vector<GLuint> &v_uvbuffer,
-    vector<GLuint> &v_normalbuffer, vector<GLuint> &v_elementbuffer, glm::vec3 changePos = vec3(0,0,0)) {
+    vector<GLuint> &v_normalbuffer, vector<GLuint> &v_elementbuffer, vector<GLuint> &v_ks, float ks_value=0.1, glm::vec3 changePos = vec3(0,0,0)) {
 
     std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
@@ -24,6 +24,11 @@ inline int loadObject(char *str, vector<GLuint> &v_vertexbuffer, vector<GLuint> 
 	std::vector<glm::vec2> indexed_uvs;
 	std::vector<glm::vec3> indexed_normals;
 	indexVBO(vertices, uvs, normals, indices, indexed_vertices, indexed_uvs, indexed_normals);
+
+	std::vector<float> ks;
+	while(ks.size() < indexed_vertices.size()) {
+        ks.push_back(ks_value);
+	}
 
     GLuint vertexbuffer;
 	glGenBuffers(1, &vertexbuffer);
@@ -46,10 +51,17 @@ inline int loadObject(char *str, vector<GLuint> &v_vertexbuffer, vector<GLuint> 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), &indices[0], GL_STATIC_DRAW);
 
+	// Generate a buffer for the indices as well
+	GLuint ksbuffer;
+	glGenBuffers(1, &ksbuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ksbuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, ks.size() * sizeof(float), &ks[0], GL_STATIC_DRAW);
+
 	v_vertexbuffer  .push_back(vertexbuffer);
 	v_uvbuffer      .push_back(uvbuffer);
 	v_normalbuffer  .push_back(normalbuffer);
 	v_elementbuffer .push_back(elementbuffer);
+	v_ks            .push_back(ksbuffer);
 
 	return indices.size();
 }

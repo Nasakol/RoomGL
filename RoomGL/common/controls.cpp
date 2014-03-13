@@ -21,7 +21,7 @@ glm::mat4 getProjectionMatrix(){
 
 
 // Initial position : on +Z
-glm::vec3 position = glm::vec3( 7, 7, 6 );
+glm::vec3 position = glm::vec3( 5, 5, 5 );
 // Initial horizontal angle : toward -Z
 float horizontalAngle = -125*M_PI/180; // -30 degree
 //float horizontalAngle = 90*M_PI/180; // -30 degree
@@ -49,13 +49,18 @@ void computeMatricesFromInputs(){
 	glfwGetMousePos(&xpos, &ypos);
 
 	// Reset mouse position for next frame
-//	glfwSetMousePos(1024/2, 768/2);
 
 	// Compute new orientation
-//	horizontalAngle += mouseSpeed * float(1024/2 - xpos );
-//	verticalAngle   += mouseSpeed * float( 768/2 - ypos );
-//    horizontalAngle = 3.14f + mouseSpeed * float( 1024/2 - xpos );
-//    verticalAngle   = mouseSpeed * float( 768/2 - ypos );
+#ifdef _WIN32
+	glfwSetMousePos(1024/2, 768/2);
+	horizontalAngle += mouseSpeed * float(1024/2 - xpos );
+	verticalAngle   += mouseSpeed * float( 768/2 - ypos );
+#else
+#ifdef __APPLE__
+    horizontalAngle = 3.14f + mouseSpeed * float( 1024/2 - xpos );
+    verticalAngle   = mouseSpeed * float( 768/2 - ypos );
+#endif
+#endif
 
     // Control Angle
 	if (glfwGetKey( 'W' ) == GLFW_PRESS){

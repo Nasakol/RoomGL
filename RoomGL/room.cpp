@@ -14,6 +14,7 @@ vector<GLuint> v_vertexbuffer;
 vector<GLuint> v_uvbuffer;
 vector<GLuint> v_normalbuffer;
 vector<GLuint> v_elementbuffer;
+vector<GLuint> v_ks;
 vector<GLuint> v_texture;
 vector<int> v_indice_size;
 
@@ -108,77 +109,78 @@ int main(int argc, char **argv)
 //    v_indice_size.push_back(temp_indice_size);
 
 
-    v_texture.push_back(loadTGA_glfw("textures/roommine.tga"));
-    temp_indice_size = loadObject("V2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
+//    v_texture.push_back(loadTGA_glfw("textures/roommine.tga"));
+//    temp_indice_size = loadObject("V2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
+//    v_indice_size.push_back(temp_indice_size);
+//
+//    v_texture.push_back(loadTGA_glfw("textures/TV.tga"));
+//    temp_indice_size = loadObject("TV.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
+//    v_indice_size.push_back(temp_indice_size);
+    float default_ks = 0.3;
+
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_dinningTable.tga"));
+    temp_indice_size = loadObject("UVobj/LV_dinningTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
 
-    v_texture.push_back(loadTGA_glfw("textures/TV.tga"));
-    temp_indice_size = loadObject("TV.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
-    v_indice_size.push_back(temp_indice_size);
-    
-    v_texture.push_back(loadTGA_glfw("UVRoom/LV_dinningTable.tga"));
-    temp_indice_size = loadObject("UVobj/LV_dinningTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
-    v_indice_size.push_back(temp_indice_size);
-    
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_cabinet.tga"));
-    temp_indice_size = loadObject("UVobj/LV_cabinet.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_cabinet.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
 
     v_texture.push_back(loadTGA_glfw("UVRoom/floor.tga"));
-    temp_indice_size = loadObject("UVobj/LV_floor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_floor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-    
+
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_piano.tga"));
-    temp_indice_size = loadObject("UVobj/LV_piano.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_piano.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, 0.95, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-    
+
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_upperShelf.tga"));
-    temp_indice_size = loadObject("UVobj/LV_upperShelf.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_upperShelf.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-    
+
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_smoke.tga"));
-    temp_indice_size = loadObject("UVobj/LV_smoke.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_smoke.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-    
+
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_lowerShelf.tga"));
-    temp_indice_size = loadObject("UVobj/LV_lowerShelf.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_lowerShelf.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-    
+
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_CupOnShelf.tga"));
-    temp_indice_size = loadObject("UVobj/LV_CupOnShelf.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_CupOnShelf.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-    
+
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_roof.tga"));
-    temp_indice_size = loadObject("UVobj/LV_roof.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_roof.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-    
+
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_lamp.tga"));
-    temp_indice_size = loadObject("UVobj/LV_lamp.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_lamp.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-    
+
     v_texture.push_back(loadTGA_glfw("UVRoom/door.tga"));
-    temp_indice_size = loadObject("UVobj/door.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/door.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
 
     v_texture.push_back(loadTGA_glfw("UVRoom/wall.tga"));
-    temp_indice_size = loadObject("UVobj/wall.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/wall.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-    
-    v_texture.push_back(loadTGA_glfw("UVRoom/LV_outDoor.tga"));
-    temp_indice_size = loadObject("UVobj/LV_outerDoor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
-    v_indice_size.push_back(temp_indice_size);
-    
-//    v_texture.push_back(loadTGA_glfw("UVRoom/LV_outerFloor.tga"));
-//    temp_indice_size = loadObject("UVobj/LV_outerFloor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
-//    v_indice_size.push_back(temp_indice_size);
 
-//    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofa.tga"));
-//    temp_indice_size = loadObject("UVobj/LV_sofa.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
-//    v_indice_size.push_back(temp_indice_size);
-//
-//    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofaTable.tga"));
-//    temp_indice_size = loadObject("UVobj/LV_sofaTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
-//    v_indice_size.push_back(temp_indice_size);
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_outDoor.tga"));
+    temp_indice_size = loadObject("UVobj/LV_outerDoor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_outerFloor.tga"));
+    temp_indice_size = loadObject("UVobj/LV_outerFloor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofa.tga"));
+    temp_indice_size = loadObject("UVobj/LV_sofa.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, 0.8, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofaTable.tga"));
+    temp_indice_size = loadObject("UVobj/LV_sofaTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
 
 
     // -----------------------------------------------------
@@ -271,10 +273,10 @@ int main(int argc, char **argv)
 	int nbFrames = 0;
 
 	vec3 lightSource = vec3(-3,3,1);
-	glm::vec3 lightPos(5, 5, 5);
-	v_texture.push_back(loadTGA_glfw("textures/Light.tga"));
-    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, lightPos);
-    v_indice_size.push_back(temp_indice_size);
+	glm::vec3 lightPos(2, 5.4, 4);
+//	v_texture.push_back(loadTGA_glfw("textures/Light.tga"));
+//    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, 0.5, lightPos);
+//    v_indice_size.push_back(temp_indice_size);
 	do{
 		// Measure speed
 		double currentTime = glfwGetTime();
@@ -314,11 +316,11 @@ int main(int argc, char **argv)
 
 		// Compute the MVP matrix from the light's point of view
 		glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20);
-		glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, glm::vec3(0,0,0), glm::vec3(0,1,0));
+		glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, vec3(0,0,0), glm::vec3(0,1,0));
 		// or, for spot light :
 //		 glm::vec3 lightPos(5, 5, 5);
-//		 glm::mat4 depthProjectionMatrix = glm::perspective<float>(45.0f, 1.0f, 0.1f, 50.0f);
-//		 glm::mat4 depthViewMatrix = glm::lookAt(lightPos, lightPos-(lightPos-vec3(0,3,0)), glm::vec3(0,1,0));
+//		 glm::mat4 depthProjectionMatrix = glm::perspective<float>(45.0f, 4.0f/3.0f, 0.1f, 100.0f);
+//		 glm::mat4 depthViewMatrix = glm::lookAt(lightPos, lightPos-lightInvDir, glm::vec3(0,1,0));
 
 		glm::mat4 depthModelMatrix = glm::mat4(1.0);
 		glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
@@ -446,6 +448,18 @@ int main(int argc, char **argv)
             glVertexAttribPointer(
                 2,                                // attribute
                 3,                                // size
+                GL_FLOAT,                         // type
+                GL_FALSE,                         // normalized?
+                0,                                // stride
+                (void*)0                          // array buffer offset
+            );
+
+            // 3rd attribute buffer : normals
+            glEnableVertexAttribArray(3);
+            glBindBuffer(GL_ARRAY_BUFFER, v_ks[i]);
+            glVertexAttribPointer(
+                3,                                // attribute
+                1,                                // size
                 GL_FLOAT,                         // type
                 GL_FALSE,                         // normalized?
                 0,                                // stride
