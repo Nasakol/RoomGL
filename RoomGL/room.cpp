@@ -99,10 +99,6 @@ int main(int argc, char **argv)
 //    temp_indice_size = loadObject("room_thickwalls.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
 //    v_indice_size.push_back(temp_indice_size);
 
-	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
-    temp_indice_size = loadObject("untitled2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
-    v_indice_size.push_back(temp_indice_size);
-
 //	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
 //    temp_indice_size = loadObject("untitled.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(-2,0,0));
 //    v_indice_size.push_back(temp_indice_size);
@@ -114,12 +110,8 @@ int main(int argc, char **argv)
     
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofa.tga"));
     temp_indice_size = loadObject("UVobj/LV_sofa.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
-
-
-	v_texture.push_back(loadTGA_glfw("textures/roommine.tga"));
-    temp_indice_size = loadObject("V2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
     v_indice_size.push_back(temp_indice_size);
-
+    
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofaTable.tga"));
     temp_indice_size = loadObject("UVobj/LV_sofaTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
@@ -252,7 +244,7 @@ int main(int argc, char **argv)
 		glUseProgram(depthProgramID);
 
         // light source
-		glm::vec3 lightInvDir = lightSource; //glm::vec3(x,2,2);
+		glm::vec3 lightInvDir = glm::vec3(x,2,2);
 
 		// Compute the MVP matrix from the light's point of view
 		glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20);
