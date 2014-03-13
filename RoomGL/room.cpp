@@ -128,10 +128,13 @@ int main(int argc, char **argv)
 //    temp_indice_size = loadObject("houseAfterJoin.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
 //    v_indice_size.push_back(temp_indice_size);
     
-    v_texture.push_back(loadTGA_glfw("textures/roomUV.tga"));
-    temp_indice_size = loadObject("roomV2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofa.tga"));
+    temp_indice_size = loadObject("UVobj/LV_sofa.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
 
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofaTable.tga"));
+    temp_indice_size = loadObject("UVobj/LV_sofaTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
 
 
     // -----------------------------------------------------
