@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 	glfwSetMousePos(1024/2, 768/2);
 
 	// Dark blue background
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
@@ -119,6 +119,58 @@ int main(int argc, char **argv)
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_dinningTable.tga"));
     temp_indice_size = loadObject("UVobj/LV_dinningTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_cabinet.tga"));
+    temp_indice_size = loadObject("UVobj/LV_cabinet.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+
+    v_texture.push_back(loadTGA_glfw("UVRoom/floor.tga"));
+    temp_indice_size = loadObject("UVobj/LV_floor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_piano.tga"));
+    temp_indice_size = loadObject("UVobj/LV_piano.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_upperShelf.tga"));
+    temp_indice_size = loadObject("UVobj/LV_upperShelf.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_smoke.tga"));
+    temp_indice_size = loadObject("UVobj/LV_smoke.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_lowerShelf.tga"));
+    temp_indice_size = loadObject("UVobj/LV_lowerShelf.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_CupOnShelf.tga"));
+    temp_indice_size = loadObject("UVobj/LV_CupOnShelf.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_roof.tga"));
+    temp_indice_size = loadObject("UVobj/LV_roof.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_lamp.tga"));
+    temp_indice_size = loadObject("UVobj/LV_lamp.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/door.tga"));
+    temp_indice_size = loadObject("UVobj/door.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+
+    v_texture.push_back(loadTGA_glfw("UVRoom/wall.tga"));
+    temp_indice_size = loadObject("UVobj/wall.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("UVRoom/LV_outDoor.tga"));
+    temp_indice_size = loadObject("UVobj/LV_outerDoor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+    
+//    v_texture.push_back(loadTGA_glfw("UVRoom/LV_outerFloor.tga"));
+//    temp_indice_size = loadObject("UVobj/LV_outerFloor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+//    v_indice_size.push_back(temp_indice_size);
 
 
     // -----------------------------------------------------
