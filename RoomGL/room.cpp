@@ -96,37 +96,42 @@ int main(int argc, char **argv)
     int temp_indice_size = 0;
 
     
-	v_texture.push_back(loadTGA_glfw("textures/uvmap.tga"));
-    temp_indice_size = loadObject("room_thickwalls.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
-    v_indice_size.push_back(temp_indice_size);
-
-	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
-    temp_indice_size = loadObject("untitled2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(7,0,0));
-    v_indice_size.push_back(temp_indice_size);
-
-	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
-    temp_indice_size = loadObject("untitled.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(-2,0,0));
-    v_indice_size.push_back(temp_indice_size);
-
-	v_texture.push_back(loadTGA_glfw("textures/Light.tga"));
-    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(1,1.5,-2));
-    v_indice_size.push_back(temp_indice_size);
-
-	v_texture.push_back(loadTGA_glfw("textures/lamp.tga"));
-    temp_indice_size = loadObject("lamp.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(4, 2, 0));
-    v_indice_size.push_back(temp_indice_size);
-
-	v_texture.push_back(loadTGA_glfw("textures/wall.tga"));
-    temp_indice_size = loadObject("wall.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(-2,0,0));
-    v_indice_size.push_back(temp_indice_size);
-
-	v_texture.push_back(loadTGA_glfw("textures/monkey.tga"));
-    temp_indice_size = loadObject("monkey.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
-    v_indice_size.push_back(temp_indice_size);
+//	v_texture.push_back(loadTGA_glfw("textures/uvmap.tga"));
+//    temp_indice_size = loadObject("room_thickwalls.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
+//    v_indice_size.push_back(temp_indice_size);
+//
+//	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
+//    temp_indice_size = loadObject("untitled2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(7,0,0));
+//    v_indice_size.push_back(temp_indice_size);
+//
+//	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
+//    temp_indice_size = loadObject("untitled.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(-2,0,0));
+//    v_indice_size.push_back(temp_indice_size);
+//
+//	v_texture.push_back(loadTGA_glfw("textures/Light.tga"));
+//    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(1,1.5,-2));
+//    v_indice_size.push_back(temp_indice_size);
+//
+//	v_texture.push_back(loadTGA_glfw("textures/lamp.tga"));
+//    temp_indice_size = loadObject("lamp.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(4, 2, 0));
+//    v_indice_size.push_back(temp_indice_size);
+//
+//	v_texture.push_back(loadTGA_glfw("textures/wall.tga"));
+//    temp_indice_size = loadObject("wall.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(-2,0,0));
+//    v_indice_size.push_back(temp_indice_size);
+//
+//	v_texture.push_back(loadTGA_glfw("textures/monkey.tga"));
+//    temp_indice_size = loadObject("monkey.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+//    v_indice_size.push_back(temp_indice_size);
     
 //    v_texture.push_back(loadTGA_glfw("textures/house.tga"));
 //    temp_indice_size = loadObject("houseAfterJoin.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
 //    v_indice_size.push_back(temp_indice_size);
+    
+    v_texture.push_back(loadTGA_glfw("textures/roomUV.tga"));
+    temp_indice_size = loadObject("roomV2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+    v_indice_size.push_back(temp_indice_size);
+
 
 
     // -----------------------------------------------------
