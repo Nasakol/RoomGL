@@ -95,41 +95,29 @@ int main(int argc, char **argv)
 //	v_texture.push_back(png_texture_load("untitled.png", &width, &height));
     int temp_indice_size = 0;
 
-    
 //	v_texture.push_back(loadTGA_glfw("textures/uvmap.tga"));
 //    temp_indice_size = loadObject("room_thickwalls.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
 //    v_indice_size.push_back(temp_indice_size);
-//
-//	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
-//    temp_indice_size = loadObject("untitled2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(7,0,0));
-//    v_indice_size.push_back(temp_indice_size);
-//
+
+	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
+    temp_indice_size = loadObject("untitled2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
+    v_indice_size.push_back(temp_indice_size);
+
 //	v_texture.push_back(loadTGA_glfw("textures/untitled.tga"));
 //    temp_indice_size = loadObject("untitled.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(-2,0,0));
 //    v_indice_size.push_back(temp_indice_size);
-//
-//	v_texture.push_back(loadTGA_glfw("textures/Light.tga"));
-//    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(1,1.5,-2));
+
+//	v_texture.push_back(loadTGA_glfw("textures/RR.tga"));
+//    temp_indice_size = loadObject("RR.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
 //    v_indice_size.push_back(temp_indice_size);
-//
-//	v_texture.push_back(loadTGA_glfw("textures/lamp.tga"));
-//    temp_indice_size = loadObject("lamp.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(4, 2, 0));
-//    v_indice_size.push_back(temp_indice_size);
-//
-//	v_texture.push_back(loadTGA_glfw("textures/wall.tga"));
-//    temp_indice_size = loadObject("wall.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(-2,0,0));
-//    v_indice_size.push_back(temp_indice_size);
-//
-//	v_texture.push_back(loadTGA_glfw("textures/monkey.tga"));
-//    temp_indice_size = loadObject("monkey.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
-//    v_indice_size.push_back(temp_indice_size);
-    
-//    v_texture.push_back(loadTGA_glfw("textures/house.tga"));
-//    temp_indice_size = loadObject("houseAfterJoin.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
-//    v_indice_size.push_back(temp_indice_size);
-    
-    v_texture.push_back(loadTGA_glfw("textures/roomUV.tga"));
-    temp_indice_size = loadObject("roomV2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+
+	v_texture.push_back(loadTGA_glfw("textures/roommine.tga"));
+    temp_indice_size = loadObject("V2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
+    v_indice_size.push_back(temp_indice_size);
+
+
+	v_texture.push_back(loadTGA_glfw("textures/TV.tga"));
+    temp_indice_size = loadObject("TV.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
     v_indice_size.push_back(temp_indice_size);
 
 
@@ -221,13 +209,18 @@ int main(int argc, char **argv)
 
 	double lastTime = glfwGetTime();
 	int nbFrames = 0;
+
+	vec3 lightSource = vec3(0,0,1);
+	v_texture.push_back(loadTGA_glfw("textures/Light.tga"));
+    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, lightSource);
+    v_indice_size.push_back(temp_indice_size);
 	do{
 		// Measure speed
 		double currentTime = glfwGetTime();
 		nbFrames++;
 		if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1sec ago
 			// printf and reset
-			printf("%f ms/frame\n", 1000.0/double(nbFrames));
+			printf("%f ms/frame : %d frame/s\n", 1000.0/double(nbFrames), nbFrames);
 			nbFrames = 0;
 			lastTime += 1.0;
 		}
@@ -256,7 +249,7 @@ int main(int argc, char **argv)
 		glUseProgram(depthProgramID);
 
         // light source
-		glm::vec3 lightInvDir = glm::vec3(x,2,2);
+		glm::vec3 lightInvDir = lightSource; //glm::vec3(x,2,2);
 
 		// Compute the MVP matrix from the light's point of view
 		glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20);
