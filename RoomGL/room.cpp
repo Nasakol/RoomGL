@@ -95,6 +95,7 @@ int main(int argc, char **argv)
 //	v_texture.push_back(png_texture_load("untitled.png", &width, &height));
     int temp_indice_size = 0;
 
+    
 	v_texture.push_back(loadTGA_glfw("textures/uvmap.tga"));
     temp_indice_size = loadObject("room_thickwalls.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
     v_indice_size.push_back(temp_indice_size);
@@ -122,7 +123,10 @@ int main(int argc, char **argv)
 	v_texture.push_back(loadTGA_glfw("textures/monkey.tga"));
     temp_indice_size = loadObject("monkey.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
-
+    
+//    v_texture.push_back(loadTGA_glfw("textures/house.tga"));
+//    temp_indice_size = loadObject("houseAfterJoin.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer);
+//    v_indice_size.push_back(temp_indice_size);
 
 
     // -----------------------------------------------------
@@ -262,7 +266,7 @@ int main(int argc, char **argv)
 
 		// Send our transformation to the currently bound shader,
 		// in the "MVP" uniform in glsl DepthRTT
-//		glUniformMatrix4fv(depthMatrixID, 1, GL_FALSE, &depthMVP[0][0]);
+		glUniformMatrix4fv(depthMatrixID, 1, GL_FALSE, &depthMVP[0][0]);
 
     // map shader into floor
     for(int i=0 ; i<4 ; i++) {
