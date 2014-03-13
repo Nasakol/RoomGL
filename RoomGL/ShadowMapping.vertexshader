@@ -37,6 +37,7 @@ void main(){
 
 	// Vector that goes from the vertex to the light, in camera space
 	LightDirection_cameraspace = (V*vec4(LightInvDirection_worldspace,0)).xyz;
+	//LightDirection_cameraspace = (V*vec4(LightInvDirection_worldspace - vertexPosition_modelspace,0)).xyz;
 	
 	// Normal of the the vertex, in camera space
 	Normal_cameraspace = ( V * M * vec4(vertexNormal_modelspace,0)).xyz; // Only correct if ModelMatrix does not scale the model ! Use its inverse transpose if not.

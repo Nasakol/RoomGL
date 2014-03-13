@@ -107,14 +107,22 @@ int main(int argc, char **argv)
 //    temp_indice_size = loadObject("RR.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
 //    v_indice_size.push_back(temp_indice_size);
 
-    
-    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofa.tga"));
-    temp_indice_size = loadObject("UVobj/LV_sofa.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+
+    v_texture.push_back(loadTGA_glfw("textures/roommine.tga"));
+    temp_indice_size = loadObject("V2.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
     v_indice_size.push_back(temp_indice_size);
-    
-    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofaTable.tga"));
-    temp_indice_size = loadObject("UVobj/LV_sofaTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+
+    v_texture.push_back(loadTGA_glfw("textures/TV.tga"));
+    temp_indice_size = loadObject("TV.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(0,0,0));
     v_indice_size.push_back(temp_indice_size);
+
+//    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofa.tga"));
+//    temp_indice_size = loadObject("UVobj/LV_sofa.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+//    v_indice_size.push_back(temp_indice_size);
+//
+//    v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofaTable.tga"));
+//    temp_indice_size = loadObject("UVobj/LV_sofaTable.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, vec3(2.5,1,0));
+//    v_indice_size.push_back(temp_indice_size);
 
 
     // -----------------------------------------------------
@@ -197,6 +205,7 @@ int main(int argc, char **argv)
 
 	// Get a handle for our "LightPosition" uniform
 	GLuint lightInvDirID = glGetUniformLocation(programID, "LightInvDirection_worldspace");
+	GLuint LightPositionID = glGetUniformLocation(programID, "LightPosition_worldspace");
 
 
     int cnt = 0;
@@ -205,9 +214,10 @@ int main(int argc, char **argv)
 	double lastTime = glfwGetTime();
 	int nbFrames = 0;
 
-	vec3 lightSource = vec3(0,0,1);
+	vec3 lightSource = vec3(-3,3,1);
+	glm::vec3 lightPos(5, 5, 5);
 	v_texture.push_back(loadTGA_glfw("textures/Light.tga"));
-    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, lightSource);
+    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, lightPos);
     v_indice_size.push_back(temp_indice_size);
 	do{
 		// Measure speed
@@ -244,15 +254,15 @@ int main(int argc, char **argv)
 		glUseProgram(depthProgramID);
 
         // light source
-		glm::vec3 lightInvDir = glm::vec3(x,2,2);
+		glm::vec3 lightInvDir = glm::vec3(2,2,2);
 
 		// Compute the MVP matrix from the light's point of view
 		glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20);
 		glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, glm::vec3(0,0,0), glm::vec3(0,1,0));
 		// or, for spot light :
-		// glm::vec3 lightPos(5, 20, 20);
-		// glm::mat4 depthProjectionMatrix = glm::perspective<float>(45.0f, 1.0f, 2.0f, 50.0f);
-		// glm::mat4 depthViewMatrix = glm::lookAt(lightPos, lightPos-lightInvDir, glm::vec3(0,1,0));
+//		 glm::vec3 lightPos(5, 5, 5);
+//		 glm::mat4 depthProjectionMatrix = glm::perspective<float>(45.0f, 1.0f, 0.1f, 50.0f);
+//		 glm::mat4 depthViewMatrix = glm::lookAt(lightPos, lightPos-(lightPos-vec3(0,3,0)), glm::vec3(0,1,0));
 
 		glm::mat4 depthModelMatrix = glm::mat4(1.0);
 		glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
@@ -262,7 +272,7 @@ int main(int argc, char **argv)
 		glUniformMatrix4fv(depthMatrixID, 1, GL_FALSE, &depthMVP[0][0]);
 
     // map shader into floor
-    for(int i=0 ; i<4 ; i++) {
+    for(int i=0 ; i<v_vertexbuffer.size() ; i++) {
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, v_vertexbuffer[i]);
@@ -330,6 +340,7 @@ int main(int argc, char **argv)
 
         // specify position of light source
 		glUniform3f(lightInvDirID, lightInvDir.x, lightInvDir.y, lightInvDir.z);
+		glUniform3f(LightPositionID, lightPos.x, lightPos.y, lightPos.z);
 
 
 //		// Bind our texture in Texture Unit 0
