@@ -127,7 +127,7 @@ int main(int argc, char **argv)
     v_indice_size.push_back(temp_indice_size);
 
     v_texture.push_back(loadTGA_glfw("UVRoom/floor.tga"));
-    temp_indice_size = loadObject("UVobj/LV_floor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_floor.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, 0.43, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
 
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_piano.tga"));
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
     v_indice_size.push_back(temp_indice_size);
 
     v_texture.push_back(loadTGA_glfw("UVRoom/wall.tga"));
-    temp_indice_size = loadObject("UVobj/wall.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, default_ks, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/wall.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, 0.235, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
 
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_outDoor.tga"));
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
     v_indice_size.push_back(temp_indice_size);
 
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofa.tga"));
-    temp_indice_size = loadObject("UVobj/LV_sofa.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, 0.8, vec3(2.5,1,0));
+    temp_indice_size = loadObject("UVobj/LV_sofa.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, 0.61, vec3(2.5,1,0));
     v_indice_size.push_back(temp_indice_size);
 
     v_texture.push_back(loadTGA_glfw("UVRoom/LV_sofaTable.tga"));
@@ -187,6 +187,8 @@ int main(int argc, char **argv)
     // End adding object
     // -----------------------------------------------------
 
+
+    GLuint bump_normal = loadTGA_glfw("texturesBump/stones_08_nm.tga");
 
 
 
@@ -206,7 +208,7 @@ int main(int argc, char **argv)
 	GLuint depthTexture;
 	glGenTextures(1, &depthTexture);
 	glBindTexture(GL_TEXTURE_2D, depthTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0,GL_DEPTH_COMPONENT16, 1024, 1024, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0,GL_DEPTH_COMPONENT32, 1024, 1024, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -260,6 +262,7 @@ int main(int argc, char **argv)
 	GLuint ModelMatrixID = glGetUniformLocation(programID, "M");
 	GLuint DepthBiasID = glGetUniformLocation(programID, "DepthBiasMVP");
 	GLuint ShadowMapID = glGetUniformLocation(programID, "shadowMap");
+	GLuint bumpMapID = glGetUniformLocation(programID, "bumpMap");
 
 	// Get a handle for our "LightPosition" uniform
 	GLuint lightInvDirID = glGetUniformLocation(programID, "LightInvDirection_worldspace");
@@ -267,13 +270,14 @@ int main(int argc, char **argv)
 
 
     int cnt = 0;
-    float x = -1, delta = 0.01;
+    float x = 0.5, delta = 0.01;
 
 	double lastTime = glfwGetTime();
 	int nbFrames = 0;
 
 	vec3 lightSource = vec3(-3,3,1);
-	glm::vec3 lightPos(2, 5.4, 4);
+	glm::vec3 lightPos(10, 5.4, 4);
+	int toggle_move = 1;
 //	v_texture.push_back(loadTGA_glfw("textures/Light.tga"));
 //    temp_indice_size = loadObject("Light.obj", v_vertexbuffer, v_uvbuffer, v_normalbuffer, v_elementbuffer, v_ks, 0.5, lightPos);
 //    v_indice_size.push_back(temp_indice_size);
@@ -292,7 +296,10 @@ int main(int argc, char **argv)
         if(cnt == 1) {
             cnt = 0;
             x += delta;
-            if(x < -1 || x >= 2) delta *= -1;
+            if(!toggle_move) {
+                if(x < 0) {delta *= -1; toggle_move ^=1;}
+            }
+            else if (x >= 3) {delta *= -1;toggle_move ^=1;}
         }cnt++;
 
 		// Render to our framebuffer
@@ -312,7 +319,7 @@ int main(int argc, char **argv)
 		glUseProgram(depthProgramID);
 
         // light source
-		glm::vec3 lightInvDir = glm::vec3(2,2,2);
+		glm::vec3 lightInvDir = glm::vec3(x,2,2);
 
 		// Compute the MVP matrix from the light's point of view
 		glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10,10,-10,10,-10,20);
@@ -407,6 +414,9 @@ int main(int argc, char **argv)
 //		// Set our "myTextureSampler" sampler to user Texture Unit 0
 //		glUniform1i(TextureID, 0);
 
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, bump_normal);
+		glUniform1i(bumpMapID, 2);
 
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthTexture);
