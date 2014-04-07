@@ -126,6 +126,6 @@ void main(){
 		// Diffuse : "color" of the object
 		visibility * MaterialDiffuseColor * LightColor * LightPower / distance * cosTheta+
 		// Specular : reflective highlight, like a mirror
-		visibility * MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,5);
+		visibility * MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,3);
 
 }
